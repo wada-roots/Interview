@@ -1,0 +1,168 @@
+<!DOCTYPE html> 
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Users</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: #dadd1d;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card {
+            border: 2px solid black;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            color: #333;
+            margin: 0;
+        }
+        a.add-button {
+            display: inline-block;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        a.add-button:hover {
+            background-color: #218838;
+        }
+        .search-form {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .search-input {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .search-button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .search-button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .action-buttons a {
+            margin-right: 10px;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 0.9em;
+            transition: background-color 0.3s;
+        }
+        .action-buttons a.edit {
+            background-color: #007bff;
+        }
+        .action-buttons a.edit:hover {
+            background-color: #0056b3;
+        }
+        .action-buttons a.delete {
+            background-color: #dc3545;
+        }
+        .action-buttons a.delete:hover {
+            background-color: #c82333;
+        }
+        /* Logout button style */
+        .logout-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 15px;
+            background-color: #dc3545;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .logout-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Card Wrapper for Users Header -->
+        <div class="card">
+            <h1>USERS</h1>
+        </div>
+
+        <a href="/users/new" class="add-button">Add New User</a>
+
+        <!-- Search Form -->
+        <form th:action="@{/users/search}" method="get" class="search-form">
+            <input type="text" name="keyword" placeholder="Search by name or occupation" th:value="${keyword}" class="search-input" />
+            <button type="submit" class="search-button">Search</button>
+        </form>
+        <!-- Users Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Occupation</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.fullName}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.occupation}"></td>
+                    <td class="action-buttons">
+                        <a th:href="@{/users/edit/{id}(id=${user.id})}" class="edit">Edit</a>
+                        <a th:href="@{/users/delete/{id}(id=${user.id})}" class="delete">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Logout Button -->
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="logout-button">Logout</button>
+        </form>
+    </div>
+</body>
+</html>
